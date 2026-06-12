@@ -1,0 +1,42 @@
+<!DOCTYPE html><html><head><meta charset="utf-8">
+<title>Load Test Report</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+<style>
+body{font-family:system-ui;max-width:1000px;margin:auto;padding:20px;background:#f5f5f5}
+.hdr{background:#1a1a2e;color:#fff;padding:24px;border-radius:8px;margin-bottom:16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:16px}
+.card{background:#fff;border-radius:8px;padding:16px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.1)}
+.val{font-size:28px;font-weight:700;color:#1a1a2e}.lbl{font-size:11px;color:#888;text-transform:uppercase}
+.chart-box{background:#fff;border-radius:8px;padding:16px;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,.1)}
+</style></head><body>
+<div class="hdr"><h2 style="margin:0">Load Test Report</h2>
+<p style="margin:4px 0 0;opacity:.8">http://127.0.0.1:8080/</p>
+<p style="margin:2px 0 0;opacity:.6">2026-04-08 08:41:55 UTC</p></div>
+<div class="grid">
+<div class="card"><div class="val">2,373</div><div class="lbl">Requests</div></div>
+<div class="card"><div class="val">88</div><div class="lbl">Peak RPS</div></div>
+<div class="card"><div class="val">92ms</div><div class="lbl">Avg Latency</div></div>
+<div class="card"><div class="val">152ms</div><div class="lbl">P95</div></div>
+<div class="card"><div class="val">4.17%</div><div class="lbl">Error Rate</div></div>
+<div class="card"><div class="val">2</div><div class="lbl">Workers</div></div>
+</div>
+<div class="chart-box"><canvas id="c1" height="70"></canvas></div>
+<div class="chart-box"><canvas id="c2" height="70"></canvas></div>
+<div class="chart-box"><canvas id="c3" height="50"></canvas></div>
+<script>
+const L=["0s", "1s", "2s", "3s", "4s", "5s", "6s", "7s", "8s", "9s", "10s", "11s", "13s", "14s", "15s", "16s", "17s", "18s", "19s", "20s", "21s", "22s", "23s", "24s", "25s", "26s", "27s", "28s"],R=[80.0, 87.2, 83.8, 84.8, 83.2, 84.8, 86.4, 82.2, 86.6, 80.0, 85.0, 85.2, 79.9, 88.0, 81.7, 84.8, 84.7, 83.4, 82.3, 84.0, 86.2, 81.2, 85.8, 83.1, 84.9, 82.6, 83.0, 85.5],A=[92.1, 88.7, 96.8, 85.5, 91.8, 77.5, 83.4, 77.6, 94.2, 89.7, 91.6, 80.8, 94.8, 84.1, 94.5, 90.0, 87.9, 89.2, 84.7, 91.0, 82.9, 81.5, 84.5, 91.0, 88.4, 91.0, 87.8, 91.7],
+P95=[156.2, 152.0, 150.0, 145.8, 152.2, 147.8, 142.9, 145.4, 156.6, 150.2, 152.5, 146.7, 164.6, 148.3, 166.4, 147.7, 151.0, 149.5, 149.2, 155.5, 144.6, 153.0, 151.2, 152.0, 150.0, 150.3, 148.4, 152.0],P99=[166.2, 160.3, 170.2, 165.5, 164.5, 153.4, 153.3, 155.9, 160.1, 151.8, 162.4, 165.6, 173.6, 167.3, 171.8, 165.4, 176.9, 167.5, 163.0, 166.7, 168.6, 166.6, 172.7, 174.6, 154.4, 151.5, 157.4, 162.5],E=[3, 3, 3, 4, 3, 3, 5, 5, 0, 4, 1, 2, 2, 6, 2, 3, 4, 6, 5, 2, 3, 2, 5, 5, 2, 4, 5, 7];
+const line=(id,ds,t)=>new Chart(document.getElementById(id),
+{type:'line',data:{labels:L,datasets:ds},options:{responsive:true,
+plugins:{title:{display:true,text:t}},elements:{point:{radius:0}},
+scales:{y:{beginAtZero:true}}}});
+line('c1',[{label:'RPS',data:R,borderColor:'#3498db',fill:true,
+backgroundColor:'rgba(52,152,219,.1)',tension:.3}],'Throughput');
+line('c2',[{label:'Avg',data:A,borderColor:'#27ae60',tension:.3},
+{label:'P95',data:P95,borderColor:'#f39c12',tension:.3},
+{label:'P99',data:P99,borderColor:'#e74c3c',tension:.3}],'Latency (ms)');
+new Chart(document.getElementById('c3'),{type:'bar',data:{labels:L,
+datasets:[{label:'Errors',data:E,backgroundColor:'rgba(231,76,60,.5)'}]},
+options:{responsive:true,plugins:{title:{display:true,text:'Errors / Interval'}},
+scales:{y:{beginAtZero:true}}}});
+</script></body></html>

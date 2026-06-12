@@ -1,0 +1,11 @@
+# Only needed if you want file-based config instead of CLI flags.
+# Both coordinator.py and worker.py are fully driven by CLI args + env vars,
+# so this file is optional.
+
+# Example usage with a wrapper script:
+#   target_url: http://api.example.com/search
+#   rps: 200
+#   duration: 60
+#   vusers: 20
+#   ramp_up_s: 15
+#   ramp_steps: 5

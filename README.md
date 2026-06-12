@@ -22,9 +22,7 @@ HydraLoad distributes HTTP load generation across multiple worker nodes, aggrega
 
 ## Architecture
 
-<p align="center">
-  <img src="docs/architecture.png" width="100%">
-</p>
+<img width="1536" height="1024" alt="CN" src="https://github.com/user-attachments/assets/5ebe0e14-72c9-4a49-aa45-078c3a3528fc" />
 
 ---
 
